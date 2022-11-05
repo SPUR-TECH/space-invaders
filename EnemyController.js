@@ -18,6 +18,8 @@ export default class EnemyController {
     yVelocity = 0;
     defaultXVelocity = 1;
     defaultYVelocity = 1;
+    moveDownTimerDefault = 30;
+    moveDownTimer = this.moveDownTimerDefault;
 
 
 
@@ -28,8 +30,25 @@ export default class EnemyController {
     }
 
     draw(ctx) {
+        this.decrementMoveDownTimer();
         this.updateVelocityAndDirection();
         this.drawEnemies(ctx);
+        this.resetMoveDownTimer();
+    }
+
+    resetMoveDownTimer() {
+        if (this.moveDownTimer <= 0) {
+            this.moveDownTimer = this.moveDownTimerDefault;
+        }
+    }
+
+    decrementMoveDownTimer() {
+        if (
+            this.currentDirection === MovingDirection.downLeft ||
+            this.currentDirection === MovingDirection.downRight
+        ) {
+            this.moveDownTimer--;
+        }
     }
 
     updateVelocityAndDirection() {
@@ -43,9 +62,34 @@ export default class EnemyController {
                     break;
                 }
             } else if (this.currentDirection === MovingDirection.downLeft) {
-                this.xVelocity = 0;
+                if (this.moveDown(MovingDirection.left)) {
+                    break;
+                }
+            } else if (this.currentDirection === MovingDirection.left) {
+                this.xVelocity = -this.defaultXVelocity;
+                this.yVelocity = 0;
+                const leftMostEnemy = enemyRow[0];
+                if (leftMostEnemy.x <= 0) {
+                    this.currentDirection = MovingDirection.downRight;
+                    break;
+                }
+            } else if (this.currentDirection === MovingDirection.downRight) {
+                if (this.moveDown(MovingDirection.right)) {
+                    break;
+                }
             }
         }
+    }
+
+
+    moveDown(newDirection) {
+        this.xVelocity = 0;
+        this.yVelocity = this.defaultYVelocity;
+        if (this.moveDownTimer <= 0) {
+            this.currentDirection = newDirection;
+            return true;
+        }
+        return false;
     }
 
     drawEnemies(ctx) {
