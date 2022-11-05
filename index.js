@@ -12,7 +12,7 @@ const background = new Image();
 background.src = "images/space.png";
 
 const playerBulletController = new BulletController(canvas, 4, "red", true);
-const enemyBulletController = new BulletController(canvas, 6, "white", false);
+const enemyBulletController = new BulletController(canvas, 6, "white", true);
 const enemyController = new EnemyController(
     canvas,
     enemyBulletController,

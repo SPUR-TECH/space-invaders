@@ -12,6 +12,9 @@ export default class BulletController {
 
         this.shootSound = new Audio("sounds/shoot.wav");
         this.shootSound.volume = 0.5;
+
+        this.enemyShootSound = new Audio("sounds/enemy-bomb.wav");
+        this.enemyShootSound.volume = 0.1;
     }
 
     draw(ctx) {
@@ -48,6 +51,8 @@ export default class BulletController {
             if (this.soundEnabled) {
                 this.shootSound.currentTime = 0;
                 this.shootSound.play();
+                this.enemyShootSound.currentTime = 0;
+                this.enemyShootSound.play();
             }
             this.timeTillNextBulletAllowed = timeTillNextBulletAllowed;
         }

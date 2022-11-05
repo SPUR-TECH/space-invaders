@@ -18,3 +18,33 @@ h1 {
     margin-bottom: 50px;
     margin-top: 0px;
 }
+
+canvas {
+    border-radius: 10px;
+}
+
+.buttons {
+    display: flex;
+}
+
+#ArrowLeft {
+    color: blue;
+    position: absolute;
+    left: 730px;
+    margin-top: 20px;
+    padding-top: 2px;
+    height: 20px;
+    border-radius: 20px;
+    border: 0;
+}
+
+#ArrowRight {
+    color: blue;
+    position: absolute;
+    left: 780px;
+    margin-top: 20px;
+    padding-top: 2px;
+    height: 20px;
+    border-radius: 20px;
+    border: 0;
+}

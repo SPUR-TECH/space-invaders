@@ -22,13 +22,16 @@ export default class EnemyController {
     fireBulletTimerDefault = 30;
     fireBulletTimer = this.fireBulletTimerDefault;
 
-    constructor(canvas, enemyBulletController, playerBulletController) {
+    constructor(canvas, enemyBulletController, playerBulletController, backgroundSound) {
         this.canvas = canvas;
         this.enemyBulletController = enemyBulletController;
         this.playerBulletController = playerBulletController;
 
         this.enemyDeathSound = new Audio("sounds/enemy-death.wav");
         this.enemyDeathSound.volume = 0.5;
+
+        this.backgroundSound = new Audio("sounds/background.wav");
+        this.backgroundSound.volume = 0.9;
 
         this.createEnemies();
     }
@@ -40,6 +43,7 @@ export default class EnemyController {
         this.drawEnemies(ctx);
         this.resetMoveDownTimer();
         this.fireBullet();
+        this.backgroundSound.play();
     }
 
     collisionDetection() {
