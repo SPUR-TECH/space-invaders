@@ -2,14 +2,13 @@ import Enemy from "./Enemy.js";
 import MovingDirection from "./MovingDirection.js";
 
 export default class EnemyController {
-
     enemyMap = [
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [2, 2, 2, 1, 3, 3, 1, 2, 2, 2],
-        [2, 2, 2, 1, 3, 3, 1, 2, 2, 2],
+        [2, 2, 2, 3, 3, 3, 3, 2, 2, 2],
+        [2, 2, 2, 3, 3, 3, 3, 2, 2, 2],
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [2, 1, 2, 2, 2, 2, 2, 2, 1, 2],
+        [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
     ];
     enemyRows = [];
 
@@ -18,22 +17,54 @@ export default class EnemyController {
     yVelocity = 0;
     defaultXVelocity = 1;
     defaultYVelocity = 1;
-    moveDownTimerDefault = 30;
+    moveDownTimerDefault = 40;
     moveDownTimer = this.moveDownTimerDefault;
+    fireBulletTimerDefault = 30;
+    fireBulletTimer = this.fireBulletTimerDefault;
 
-
-
-
-    constructor(canvas) {
+    constructor(canvas, enemyBulletController, playerBulletController) {
         this.canvas = canvas;
+        this.enemyBulletController = enemyBulletController;
+        this.playerBulletController = playerBulletController;
+
+        this.enemyDeathSound = new Audio("sounds/enemy-death.wav");
+        this.enemyDeathSound.volume = 0.5;
+
         this.createEnemies();
     }
 
     draw(ctx) {
         this.decrementMoveDownTimer();
         this.updateVelocityAndDirection();
+        this.collisionDetection();
         this.drawEnemies(ctx);
         this.resetMoveDownTimer();
+        this.fireBullet();
+    }
+
+    collisionDetection() {
+        this.enemyRows.forEach((enemyRow) => {
+            enemyRow.forEach((enemy, enemyIndex) => {
+                if (this.playerBulletController.collideWith(enemy)) {
+                    this.enemyDeathSound.currentTime = 0;
+                    this.enemyDeathSound.play();
+                    enemyRow.splice(enemyIndex, 1);
+                }
+            });
+        });
+
+        this.enemyRows = this.enemyRows.filter((enemyRow) => enemyRow.length > 0);
+    }
+
+    fireBullet() {
+        this.fireBulletTimer--;
+        if (this.fireBulletTimer <= 0) {
+            this.fireBulletTimer = this.fireBulletTimerDefault;
+            const allEnemies = this.enemyRows.flat();
+            const enemyIndex = Math.floor(Math.random() * allEnemies.length);
+            const enemy = allEnemies[enemyIndex];
+            this.enemyBulletController.shoot(enemy.x + enemy.width / 2, enemy.y, -3);
+        }
     }
 
     resetMoveDownTimer() {
@@ -81,7 +112,6 @@ export default class EnemyController {
         }
     }
 
-
     moveDown(newDirection) {
         this.xVelocity = 0;
         this.yVelocity = this.defaultYVelocity;
@@ -99,14 +129,22 @@ export default class EnemyController {
         });
     }
 
+    happy = () => {};
+
     createEnemies() {
         this.enemyMap.forEach((row, rowIndex) => {
             this.enemyRows[rowIndex] = [];
             row.forEach((enemyNumber, enemyIndex) => {
                 if (enemyNumber > 0) {
-                    this.enemyRows[rowIndex].push(new Enemy(enemyIndex * 55, rowIndex * 40, enemyNumber))
+                    this.enemyRows[rowIndex].push(
+                        new Enemy(enemyIndex * 50, rowIndex * 35, enemyNumber)
+                    );
                 }
             });
         });
+    }
+
+    collideWith(sprite) {
+        return this.enemyRows.flat().some((enemy) => enemy.collideWith(sprite));
     }
 }

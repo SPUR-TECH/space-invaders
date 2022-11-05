@@ -1,6 +1,6 @@
 export default class Player {
-    leftPressed = false;
     rightPressed = false;
+    leftPressed = false;
     shootPressed = false;
 
     constructor(canvas, velocity, bulletController) {
@@ -13,8 +13,7 @@ export default class Player {
         this.width = 50;
         this.height = 48;
         this.image = new Image();
-        this.image.src = "images/battleship.png";
-
+        this.image.src = "images/player.png";
 
         document.addEventListener("keydown", this.keydown);
         document.addEventListener("keyup", this.keyup);
@@ -22,7 +21,7 @@ export default class Player {
 
     draw(ctx) {
         if (this.shootPressed) {
-            this.bulletController.shoot(this.x + this.width / 2, this.y, 4, 10)
+            this.bulletController.shoot(this.x + this.width / 2, this.y, 4, 10);
         }
         this.move();
         this.collideWithWalls();
@@ -30,9 +29,12 @@ export default class Player {
     }
 
     collideWithWalls() {
+        //left
         if (this.x < 0) {
             this.x = 0;
         }
+
+        //right
         if (this.x > this.canvas.width - this.width) {
             this.x = this.canvas.width - this.width;
         }
@@ -56,7 +58,6 @@ export default class Player {
         if (event.code == "Space") {
             this.shootPressed = true;
         }
-
     };
 
     keyup = (event) => {
