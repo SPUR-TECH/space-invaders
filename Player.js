@@ -17,6 +17,8 @@ export default class Player {
 
         document.addEventListener("keydown", this.keydown);
         document.addEventListener("keyup", this.keyup);
+        document.addEventListener("touchstart", this.keydown);
+        document.addEventListener("touchend", this.keyup);
     }
 
     draw(ctx) {
