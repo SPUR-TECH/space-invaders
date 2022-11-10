@@ -8,6 +8,8 @@ export default class Player {
         this.velocity = velocity;
         this.bulletController = bulletController;
 
+        this.touchX = "";
+
         this.x = this.canvas.width / 2;
         this.y = this.canvas.height - 75;
         this.width = 50;
@@ -19,6 +21,19 @@ export default class Player {
         document.addEventListener("keyup", this.keyup);
         document.addEventListener("touchstart", this.keydown);
         document.addEventListener("touchend", this.keyup);
+
+        window.addEventListener("touchstart", e => {
+            this.touchX = e.changedTouches[0].pageX;
+        });
+        window.addEventListener("touchmove", e => {
+            if (this.touchX = "True") {
+                this.x--
+                this.bulletController.shoot(this.x + this.width / 2, this.y, 4, 10);
+            }
+        });
+        window.addEventListener("touchend", e => {
+
+        });
     }
 
     draw(ctx) {
