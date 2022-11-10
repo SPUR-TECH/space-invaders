@@ -23,37 +23,10 @@ canvas {
     border-radius: 10px;
 }
 
-.buttons {
-    display: flex;
-}
-
-#ArrowLeft {
-    color: blue;
-    position: relative;
-    float: left;
-    margin-top: 20px;
-    padding-top: 2px;
-    height: 20px;
-    border-radius: 20px;
-    border: 0;
-    z-index: 100;
-}
-
-#ArrowRight {
-    color: blue;
-    position: relative;
-    margin-top: 20px;
-    padding-top: 2px;
-    height: 20px;
-    border-radius: 20px;
-    border: 0;
-    z-index: 100;
-}
-
 @media (max-width: 799px) {
     canvas {
-        width: 100vw;
-        height: 70vh;
+        max-width: 100%;
+        max-height: 100%;
     }
 
     h1 {
