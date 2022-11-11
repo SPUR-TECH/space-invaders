@@ -17,17 +17,21 @@ export default class Player {
         this.image = new Image();
         this.image.src = "images/player.png";
 
-        document.addEventListener("keydown", this.keydown);
-        document.addEventListener("keyup", this.keyup);
-        document.addEventListener("touchstart", this.keydown);
-        document.addEventListener("touchend", this.keyup);
+        window.addEventListener("keydown", this.keydown);
+        window.addEventListener("keyup", this.keyup);
+        window.addEventListener("touchstart", this.keydown);
+        window.addEventListener("touchend", this.keyup);
 
         window.addEventListener("touchstart", e => {
             this.touchX = e.changedTouches[0].pageX;
         });
         window.addEventListener("touchmove", e => {
-            if (this.touchX = "True") {
-                this.x--
+            if (this.touchX < this.canvas.width / 2) {
+                this.x--, this.x += -this.velocity;
+                this.bulletController.shoot(this.x + this.width / 2, this.y, 4, 10);
+            }
+            if (this.touchX > this.canvas.width / 2) {
+                this.x++, this.x += this.velocity;
                 this.bulletController.shoot(this.x + this.width / 2, this.y, 4, 10);
             }
         });
