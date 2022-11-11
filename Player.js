@@ -24,6 +24,7 @@ export default class Player {
 
         window.addEventListener("touchstart", e => {
             this.touchX = e.changedTouches[0].pageX;
+            e.preventDefault;
         });
         window.addEventListener("touchmove", e => {
             if (this.touchX < this.canvas.width / 2) {
