@@ -24,9 +24,9 @@ export default class Player {
 
         window.addEventListener("touchstart", e => {
             this.touchX = e.changedTouches[0].pageX;
-            e.preventDefault;
         });
         window.addEventListener("touchmove", e => {
+            e.preventDefault;
             if (this.touchX < this.canvas.width / 2) {
                 this.x--, this.x += -this.velocity / 2;
                 this.bulletController.shoot(this.x + this.width / 2, this.y, 6, 10);
@@ -35,9 +35,6 @@ export default class Player {
                 this.x++, this.x += this.velocity / 2;
                 this.bulletController.shoot(this.x + this.width / 2, this.y, 6, 10);
             }
-        });
-        window.addEventListener("touchend", e => {
-
         });
     }
 
