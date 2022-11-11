@@ -26,7 +26,7 @@ export default class Player {
             this.touchX = e.changedTouches[0].pageX;
         });
         window.addEventListener("touchmove", e => {
-            e.preventDefault;
+            e.preventDefault();
             if (this.touchX < this.canvas.width / 2) {
                 this.x--, this.x += -this.velocity / 2;
                 this.bulletController.shoot(this.x + this.width / 2, this.y, 6, 10);
