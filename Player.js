@@ -11,9 +11,9 @@ export default class Player {
         this.touchX = "";
 
         this.x = this.canvas.width / 2;
-        this.y = this.canvas.height - 75;
-        this.width = 50;
-        this.height = 48;
+        this.y = this.canvas.height - 90;
+        this.width = 80;
+        this.height = 60;
         this.image = new Image();
         this.image.src = "images/player.png";
 
@@ -27,12 +27,12 @@ export default class Player {
         });
         window.addEventListener("touchmove", e => {
             if (this.touchX < this.canvas.width / 2) {
-                this.x--, this.x += -this.velocity;
-                this.bulletController.shoot(this.x + this.width / 2, this.y, 4, 10);
+                this.x--, this.x += -this.velocity / 2;
+                this.bulletController.shoot(this.x + this.width / 2, this.y, 6, 10);
             }
             if (this.touchX > this.canvas.width / 2) {
-                this.x++, this.x += this.velocity;
-                this.bulletController.shoot(this.x + this.width / 2, this.y, 4, 10);
+                this.x++, this.x += this.velocity / 2;
+                this.bulletController.shoot(this.x + this.width / 2, this.y, 6, 10);
             }
         });
         window.addEventListener("touchend", e => {
@@ -42,7 +42,7 @@ export default class Player {
 
     draw(ctx) {
         if (this.shootPressed) {
-            this.bulletController.shoot(this.x + this.width / 2, this.y, 4, 10);
+            this.bulletController.shoot(this.x + this.width / 2, this.y, 6, 10);
         }
         this.move();
         this.collideWithWalls();
